@@ -1,5 +1,10 @@
 package cbt
 
+import (
+	"encoding/json"
+	"os"
+)
+
 // data :=map[string][]string{
 // 	"Maths" : {
 // 		"1+1 = ?\nA. 2 \nB. 0",
@@ -24,12 +29,27 @@ package cbt
 func LoadQuestion() map[string][]string {
 	// This function goes to a file named "questions.json" and takes the data inside an returns it
 	// if the data does not exist return an empty data type map[string][]string
-
-	return map[string][]string{}
+	var result map[string][]string
+	data, err := os.ReadFile("questions.json")
+	if err != nil {
+		data, _ = json.Marshal(result)
+		err = os.WriteFile("questions.json", data, 0644)
+	} else {
+		err = json.Unmarshal(data, &result)
+	}
+	return result
 }
 
 func DumpQuestion(questions map[string][]string) {
 	// This function takes in the questions as parameters and overwrites what was inside questions.json with the new questions
 	// If the file doesnt exist , the function creates it and dumps it inside
+	var result map[string][]string
+	data, err := json.Marshal(questions)
+	if err == nil {
+		os.WriteFile("questions.json", data, 0644)
+	} else {
+		data, _ = json.Marshal(result)
+		os.WriteFile("questions.json", data, 0644)
+	}
 
 }
