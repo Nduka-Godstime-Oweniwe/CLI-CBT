@@ -1,8 +1,28 @@
 package cbt
 
-func Upload(subject string, questions []map[string][]string) {
-	// It goes into questions and goes into the subject
-	// calls UserQuestion() that returns two string. It collects the two string appends into a slice
-	// Ask User if he or she wants to type in a question again or go back.
-	// after user is done it dones questions inside questions.json by calling DumpQuestion()
+func Upload(subject string, questions map[string][]string) {
+
+ // Keeps running until user stops
+ for {
+
+  // Gets question and answer from user
+  question, answer := UserQuestion()
+
+  // Adds question into the correct subject
+  questions[subject] = append(questions[subject], question)
+  questions[subject] = append(questions[subject], answer)
+
+  // Ask user if they want to continue
+  option := UserOption("1. Add another question\n2. Go back\n", 2)
+
+  // Stop loop if user chooses 2
+  if option == 2 {
+   break
+  }
+ }
+
+ // Save updated questions into questions.json
+ DumpQuestion(questions)
 }
+
+This was the first solution you gave me for upload.go 
