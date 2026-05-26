@@ -1,25 +1,25 @@
 package main
 
 import (
-	"bufio"
+	// "bufio"
 	"fmt"
-	"os"
+	// "os"
 	"strings"
 )
 
-func UserInput(prompt string) string {
+// func UserInput(prompt string) string {
 
-	reader := bufio.NewReader(os.Stdin)
+// 	reader := bufio.NewReader(os.Stdin)
 
-	fmt.Print(prompt)
+// 	fmt.Print(prompt)
 
-	input, _ := reader.ReadString('\n')
+// 	input, _ := reader.ReadString('\n')
 
-	// Remove newline character
-	input = strings.TrimSpace(input)
+// 	// Remove newline character
+// 	input = strings.TrimSpace(input)
 
-	return input
-}
+// 	return input
+// }
 
 func UserQuestion() (string, string) {
 	var question string
@@ -27,52 +27,45 @@ func UserQuestion() (string, string) {
 	var optionB string
 	var answer string
 	// This function Uses UserInput("Enter Question ")
+
 	for {
-
-		for {
-			question = UserInput("Enter Question: ")
-			if question == "" {
-				fmt.Print("Question cannot be empty\n")
-				continue
-			}
-			break
+		question = UserInput("Enter Question: ")
+		if question == "" {
+			fmt.Print("Question cannot be empty\n")
+			continue
 		}
-		//UserInput("Enter Option A: ")
-		for {
-			optionA = UserInput("Enter Option A: ")
-			if optionA == "" {
-				fmt.Print("Options cannot be empty\n")
-				continue
-			}
-			break
+		break
+	}
+	//UserInput("Enter Option A: ")
+	for {
+		optionA = UserInput("Enter Option A: ")
+		if optionA == "" {
+			fmt.Print("Options cannot be empty\n")
+			continue
 		}
-		// UserInput("Enter Option B: ")
-		for {
-			optionB = UserInput("Enter Option B: ")
-			if optionB == "" {
-				fmt.Print("Options cannot be empty\n")
-				continue
-			}
-			break
+		break
+	}
+	// UserInput("Enter Option B: ")
+	for {
+		optionB = UserInput("Enter Option B: ")
+		if optionB == "" {
+			fmt.Print("Options cannot be empty\n")
+			continue
 		}
-		// UserInput("Enter Answer : ")
-		for {
-			answer = UserInput("Enter Answer (A or B): ")
-			if answer == "" {
-				fmt.Print("Answer cannot be empty\n")
-				continue
-			}
-			break
+		break
+	}
+	// UserInput("Enter Answer : ")
+	// Answers must be A or B. If user types in a or b convert to upper.
+	for {
+		answer = UserInput("Enter Answer (A or B): ")
+		answer = strings.ToUpper(answer)
+		if answer == "" {
+			fmt.Print("Answer cannot be empty\n")
+			continue
 		}
-
-		// Answers must be A or B. If user types in a or b convert to upper.
-		for {
-			answer = strings.ToUpper(answer)
-			if answer != "A" && answer != "B" {
-				fmt.Print("Answer must be A or B\n")
-				continue
-			}
-			break
+		if answer != "A" && answer != "B" {
+			fmt.Print("Answer must be A or B\n")
+			continue
 		}
 		break
 	}
@@ -87,6 +80,6 @@ func UserQuestion() (string, string) {
 
 }
 
-func main() {
-	UserQuestion()
-}
+// func main() {
+// 	UserQuestion()
+// }
