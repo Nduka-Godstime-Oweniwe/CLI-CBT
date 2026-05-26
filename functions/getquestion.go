@@ -1,4 +1,4 @@
-package main
+package cbt
 
 import (
 	// "bufio"
