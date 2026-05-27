@@ -23,6 +23,4 @@ func Upload(subject string, questions map[string][]string) {
 
  // Save updated questions into questions.json
  DumpQuestion(questions)
-}
-
-This was the first solution you gave me for upload.go 
+} 
