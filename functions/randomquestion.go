@@ -3,7 +3,7 @@ package cbt
 import (
 	"fmt"
 	"math/rand"
-	//"strings"
+	// "strings"
 )
 
 // func LoadQuestion() map[string][]string {
@@ -100,7 +100,11 @@ func DistributeQuestions(subjects []string, total int) map[string]int {
 	return distribution
 }
 
-func RandomQuestion(subjects map[string]int) []string {
+func RandomQuestion(subjects []string, numb int) []string {
+	if len(subjects) == 0 {
+		return nil
+	}
+	subjectMap := DistributeQuestions(subjects, numb)
 	// This takes a slice of all the names of subjects that the user wants to answer, and also the number of questions that would be asked in the test.
 	testQuestions := []string{}
 	questionNbr := 1
@@ -109,7 +113,7 @@ func RandomQuestion(subjects map[string]int) []string {
 
 	// Collect questions from selected subjects
 	// Returns the slice of these questions and answers.
-	for subject, numb := range subjects {
+	for subject, nb := range subjectMap {
 		questions, exists := allQuestions[subject]
 		if !exists {
 			continue
@@ -121,7 +125,7 @@ func RandomQuestion(subjects map[string]int) []string {
 		// Randomly pick questions
 		// Questions should be at index 0,2,4,6 and so on. While answers would be at odd indexes.
 		testQuestions = append(testQuestions, subject, "\n")
-		for i := 0; i < numb; i++ {
+		for i := 0; i < nb; i++ {
 			// Stop if no more questions
 			if len(availableQuestions) < 2 {
 				break
@@ -155,9 +159,8 @@ func RandomQuestion(subjects map[string]int) []string {
 // 		"Science",
 // 		"English",
 // 	}
-// 	distribution := DistributeQuestions(subjects, 11)
 
-// 	questions := RandomQuestion(distribution)
+// 	questions := RandomQuestion(subjects, 11)
 // 	cleanquestions := strings.Join(questions, "")
 
 // 	// fmt.Printf("%s\n", questions)
