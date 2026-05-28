@@ -1,76 +1,76 @@
-package main
+package cbt
 
 import (
 	"fmt"
 	"math/rand"
-	"strings"
+	// "strings"
 )
 
-func LoadQuestion() map[string][]string {
+// func LoadQuestion() map[string][]string {
 
-	return map[string][]string{
+// 	return map[string][]string{
 
-		"Math": {
+// 		"Math": {
 
-			"What is 2 + 2?\nA. 4\nB. 5",
-			"\nA\n",
+// 			"What is 2 + 2?\nA. 4\nB. 5",
+// 			"\nA\n",
 
-			"What is 10 - 7?\nA. 1\nB. 3",
-			"\nB\n",
+// 			"What is 10 - 7?\nA. 1\nB. 3",
+// 			"\nB\n",
 
-			"What is 5 x 6?\nA. 30\nB. 35",
-			"\nA\n",
+// 			"What is 5 x 6?\nA. 30\nB. 35",
+// 			"\nA\n",
 
-			"What is 12 / 3?\nA. 6\nB. 4",
-			"\nB\n",
-		},
+// 			"What is 12 / 3?\nA. 6\nB. 4",
+// 			"\nB\n",
+// 		},
 
-		"English": {
+// 		"English": {
 
-			"What is the opposite of hot?\nA. Cold\nB. Warm",
-			"\nA\n",
+// 			"What is the opposite of hot?\nA. Cold\nB. Warm",
+// 			"\nA\n",
 
-			"Choose the correct spelling.\nA. Recieve\nB. Receive",
-			"\nB\n",
+// 			"Choose the correct spelling.\nA. Recieve\nB. Receive",
+// 			"\nB\n",
 
-			"What is a noun?\nA. Action word\nB. Naming word",
-			"\nB\n",
+// 			"What is a noun?\nA. Action word\nB. Naming word",
+// 			"\nB\n",
 
-			"Choose the correct sentence.\nA. She go to school\nB. She goes to school",
-			"\nB\n",
-		},
+// 			"Choose the correct sentence.\nA. She go to school\nB. She goes to school",
+// 			"\nB\n",
+// 		},
 
-		"Science": {
+// 		"Science": {
 
-			"What planet do we live on?\nA. Mars\nB. Earth",
-			"\nB\n",
+// 			"What planet do we live on?\nA. Mars\nB. Earth",
+// 			"\nB\n",
 
-			"What gas do humans breathe in?\nA. Oxygen\nB. Carbon Dioxide",
-			"\nA\n",
+// 			"What gas do humans breathe in?\nA. Oxygen\nB. Carbon Dioxide",
+// 			"\nA\n",
 
-			"What is H2O?\nA. Water\nB. Salt",
-			"\nA\n",
+// 			"What is H2O?\nA. Water\nB. Salt",
+// 			"\nA\n",
 
-			"How many legs does an insect have?\nA. 6\nB. 8",
-			"\nA\n",
-		},
+// 			"How many legs does an insect have?\nA. 6\nB. 8",
+// 			"\nA\n",
+// 		},
 
-		"Government": {
+// 		"Government": {
 
-			"What arm of government makes laws?\nA. Legislature\nB. Judiciary",
-			"\nA\n",
+// 			"What arm of government makes laws?\nA. Legislature\nB. Judiciary",
+// 			"\nA\n",
 
-			"Who is the head of state in Nigeria?\nA. Governor\nB. President",
-			"\nB\n",
+// 			"Who is the head of state in Nigeria?\nA. Governor\nB. President",
+// 			"\nB\n",
 
-			"What is democracy?\nA. Rule by the people\nB. Rule by soldiers",
-			"\nA\n",
+// 			"What is democracy?\nA. Rule by the people\nB. Rule by soldiers",
+// 			"\nA\n",
 
-			"Nigeria practices what system?\nA. Monarchy\nB. Federalism",
-			"\nB\n",
-		},
-	}
-}
+// 			"Nigeria practices what system?\nA. Monarchy\nB. Federalism",
+// 			"\nB\n",
+// 		},
+// 	}
+// }
 
 // This distribute the number of questions equally among randomized selected subjects
 // if there are remainders it assigns them to the early selected subject
@@ -126,7 +126,6 @@ func RandomQuestion(subjects []string, numb int) []string {
 		// Questions should be at index 0,2,4,6 and so on.
 		// While answers would be at odd indexes.
 		subjectHeader := fmt.Sprintf("Subject: %s\n", subject)
-		//testQuestions = append(testQuestions, subjectHeader+"\n")
 
 		for i := 0; i < nb; i++ {
 			// Stop if no more questions
@@ -164,16 +163,16 @@ func RandomQuestion(subjects []string, numb int) []string {
 	return testQuestions
 }
 
-func main() {
-	subjects := []string{
-		"Math",
-		"Science",
-		"English",
-	}
+// func main() {
+// 	subjects := []string{
+// 		"Math",
+// 		"Science",
+// 		"English",
+// 	}
 
-	questions := RandomQuestion(subjects, 11)
-	cleanquestions := strings.Join(questions, "")
+// 	questions := RandomQuestion(subjects, 11)
+// 	cleanquestions := strings.Join(questions, "")
 
-	fmt.Printf("%#v\n", questions)
-	fmt.Println(cleanquestions)
-}
+// 	fmt.Printf("%#v\n", questions)
+// 	fmt.Println(cleanquestions)
+// }
