@@ -123,7 +123,8 @@ func RandomQuestion(subjects []string, numb int) []string {
 		copy(availableQuestions, questions)
 
 		// Randomly pick questions
-		// Questions should be at index 0,2,4,6 and so on. While answers would be at odd indexes.
+		// Questions should be at index 0,2,4,6 and so on.
+		// While answers would be at odd indexes.
 		testQuestions = append(testQuestions, subject, "\n")
 		for i := 0; i < nb; i++ {
 			// Stop if no more questions
