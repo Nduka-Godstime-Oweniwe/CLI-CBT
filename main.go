@@ -97,15 +97,22 @@ func main() {
 			clearScreen()
 			score := 0
 			answer := ""
-
+			CbtQuestions := []string{}
 			testQuestions := cbt.RandomQuestion(selectedSubjects, 2)
 			for i := 0; i < len(testQuestions); i += 2 {
+				clearScreen()
+				CbtQuestions = append(CbtQuestions, testQuestions[i])
 				answer = cbt.PrintQuestion(testQuestions, i)
+				CbtQuestions = append(CbtQuestions, strings.TrimSpace(testQuestions[i+1]))
+				CbtQuestions = append(CbtQuestions, answer)
 				if answer == strings.TrimSpace(testQuestions[i+1]) {
 					score++
 				}
 			}
-			fmt.Printf("Your Score %v\n", score)
+
+			clearScreen()
+			fmt.Printf("Your Score %v%%\n\n", (score*100)/(len(testQuestions)/2))
+			cbt.PrintCorrectSolution(CbtQuestions)
 			cbt.UserInput("Press anything to continue")
 		} else if option == 2 {
 			clearScreen()
