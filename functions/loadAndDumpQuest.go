@@ -29,7 +29,7 @@ import (
 func LoadQuestion() map[string][]string {
 	// This function goes to a file named "questions.json" and takes the data inside an returns it
 	// if the data does not exist return an empty data type map[string][]string
-	var result map[string][]string
+	result := map[string][]string{}
 	data, err := os.ReadFile("questions.json")
 	if err != nil {
 		data, _ = json.Marshal(result)
@@ -43,7 +43,7 @@ func LoadQuestion() map[string][]string {
 func DumpQuestion(questions map[string][]string) {
 	// This function takes in the questions as parameters and overwrites what was inside questions.json with the new questions
 	// If the file doesnt exist , the function creates it and dumps it inside
-	var result map[string][]string
+	result := map[string][]string{}
 	data, err := json.Marshal(questions)
 	if err == nil {
 		os.WriteFile("questions.json", data, 0644)
