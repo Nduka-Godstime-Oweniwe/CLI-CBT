@@ -73,7 +73,7 @@ func UserQuestion() (string, string) {
 	// Joint Question, OptionA and OptionB together as one string but separated by a newline character "\n"
 	fullQuestion := question +
 		"\nA. " + optionA +
-		"\nB. " + optionB
+		"\nB. " + optionB + "\n"
 
 	//Return both values
 	return fullQuestion, answer

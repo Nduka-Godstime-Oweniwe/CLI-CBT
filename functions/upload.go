@@ -1,31 +1,28 @@
 package cbt
 
-// import "fmt"
-
 func Upload(subject string, questions map[string][]string) {
-	// fmt.Println(questions)
+
+	// Keeps running until user stops
 	for {
+
+		// Gets question and answer from user
 		question, answer := UserQuestion()
+
+		// Adds question into the correct subject
 		questions[subject] = append(questions[subject], question)
 		questions[subject] = append(questions[subject], answer)
-		// fmt.Println(questions)
-		option := UserOption("1. Add Another question\n2. Go back\n", 2)
+
+		// Ask user if they want to continue
+		option := UserOption("1. Add another question\n2. Go back\n", 2)
+
+		// Stop loop if user chooses 2
 		if option == 2 {
-			DumpQuestion(questions)
 			break
 		}
 	}
-	//  for {
-	//   question, answer := UserQuestion()
-	//   questions[subject] = append(questions[subject], question)
-	//   questions[subject] = append(questions[subject], answer)
 
-	//   option := UserOption("1. Add another question\n2. Go back\n", 2)
-
-	//   if option == 2 {
-	// 	DumpQuestion(questions)
-	//    	break
-	//   }
-	//  }
-	//
+	// Save updated questions into questions.json
+	DumpQuestion(questions)
 }
+
+//This was the first solution you gave me for upload.go

@@ -123,8 +123,10 @@ func RandomQuestion(subjects []string, numb int) []string {
 		copy(availableQuestions, questions)
 
 		// Randomly pick questions
-		// Questions should be at index 0,2,4,6 and so on. While answers would be at odd indexes.
-		testQuestions = append(testQuestions, subject, "\n")
+		// Questions should be at index 0,2,4,6 and so on.
+		// While answers would be at odd indexes.
+		subjectHeader := fmt.Sprintf("Subject: %s\n", subject)
+
 		for i := 0; i < nb; i++ {
 			// Stop if no more questions
 			if len(availableQuestions) < 2 {
@@ -136,11 +138,19 @@ func RandomQuestion(subjects []string, numb int) []string {
 			// This give numbering to the question slices only
 			// Append question and answer
 			questionNumb := fmt.Sprintf("%d. ", questionNbr)
-			testQuestions = append(
-				testQuestions, questionNumb,
-				availableQuestions[randomIndex],
-				availableQuestions[randomIndex+1], "\n",
-			)
+			if i == 0 {
+				testQuestions = append(
+					testQuestions,
+					subjectHeader+questionNumb+availableQuestions[randomIndex],
+					availableQuestions[randomIndex+1]+"\n",
+				)
+			} else {
+				testQuestions = append(
+					testQuestions,
+					questionNumb+availableQuestions[randomIndex],
+					availableQuestions[randomIndex+1]+"\n",
+				)
+			}
 			questionNbr++
 
 			// Remove already selected question + answer
@@ -163,6 +173,6 @@ func RandomQuestion(subjects []string, numb int) []string {
 // 	questions := RandomQuestion(subjects, 11)
 // 	cleanquestions := strings.Join(questions, "")
 
-// 	// fmt.Printf("%s\n", questions)
+// 	fmt.Printf("%#v\n", questions)
 // 	fmt.Println(cleanquestions)
 // }
