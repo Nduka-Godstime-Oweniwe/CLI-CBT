@@ -69,10 +69,10 @@ func main() {
 			questionbank := cbt.LoadQuestion()
 			if len(questionbank) == 0 {
 				fmt.Println("Oops! There are no available questions pls try again some other time")
+				time.Sleep(2 * time.Second)
 				continue
 			}
-			// fmt.Println(questionbank)
-			// mp := cbt.LoadQuestion()
+
 			subjects := Subjects(questionbank)
 			k := 1
 			selectedSubjects := []string{}
@@ -98,20 +98,23 @@ func main() {
 			score := 0
 			answer := ""
 			CbtQuestions := []string{}
-			testQuestions := cbt.RandomQuestion(selectedSubjects, 2)
+			numb := 0
+			numb = cbt.UserOption("Enter Number Of Questions: ", 50)
+			testQuestions := cbt.RandomQuestion(selectedSubjects, numb)
 			for i := 0; i < len(testQuestions); i += 2 {
 				clearScreen()
 				CbtQuestions = append(CbtQuestions, testQuestions[i])
 				answer = cbt.PrintQuestion(testQuestions, i)
 				CbtQuestions = append(CbtQuestions, strings.TrimSpace(testQuestions[i+1]))
 				CbtQuestions = append(CbtQuestions, answer)
+				time.Sleep(1 * time.Second)
 				if answer == strings.TrimSpace(testQuestions[i+1]) {
 					score++
 				}
 			}
 
 			clearScreen()
-			fmt.Printf("Your Score %v%%\n\n", (score*100)/(len(testQuestions)/2))
+			fmt.Printf("Your Score: %v%%\n\n", (score*100)/(len(testQuestions)/2))
 			cbt.PrintCorrectSolution(CbtQuestions)
 			cbt.UserInput("Press anything to continue")
 		} else if option == 2 {
@@ -120,7 +123,12 @@ func main() {
 			subjects := Subjects(mp)
 			PrintSubject(subjects)
 			fmt.Printf("%v. Upload New Subject\n", len(subjects)+1)
-			option := cbt.UserOption("Select An Option: ", len(subjects)+1)
+			fmt.Printf("%v. Go back\n", len(subjects)+2)
+			option := cbt.UserOption("Select An Option: ", len(subjects)+2)
+			if option == len(subjects)+2 {
+				// This is when user wants to go back to previous menu
+				continue
+			}
 			if option == len(subjects)+1 {
 				nameOfNewSubject := cbt.UserInput("Enter Subject Name: ")
 				subjects = append(subjects, nameOfNewSubject)
