@@ -1,7 +1,24 @@
 package cbt
 
+import (
+	"fmt"
+	"strings"
+)
+
 func PrintQuestion(questions []string, numb int) string {
 	answer := ""
+	fmt.Println(questions[numb])
+
+	for {
+		answer = UserInput("Enter Answer(A or B)")
+		answer = strings.TrimSpace(strings.ToUpper(answer))
+		if answer != "A" && answer != "B" {
+			fmt.Println("Invalid Answer!")
+		} else {
+			break
+		}
+	}
+
 	// This prints the question when user is taking a cbt.
 	// It takes a slice of strings and the index of the particular question to be printed
 	// return user
@@ -21,4 +38,16 @@ func PrintCorrectSolution(questions []string) {
 	// B. Joshua
 	// Correct Answer : A
 	// Your Answer : C
+	for i := 0; i < len(questions); i++ {
+		if i%3 == 0 {
+			fmt.Print(questions[i])
+		}
+		if (i+2)%3 == 0 {
+			fmt.Printf("Correct Ans: %v\n", questions[i])
+		}
+
+		if (i+1)%3 == 0 {
+			fmt.Printf("Your Answer: %v\n", questions[i])
+		}
+	}
 }
