@@ -101,6 +101,16 @@ func main() {
 			numb := 0
 			numb = cbt.UserOption("Enter Number Of Questions: ", 50)
 			testQuestions := cbt.RandomQuestion(selectedSubjects, numb)
+			if testQuestions == nil {
+				fmt.Println("Oops! There are no available questions for the selected subjects pls try again some other time")
+				time.Sleep(2 * time.Second)
+				continue
+			}
+			if len(testQuestions) == 1 {
+				fmt.Println(testQuestions[0])
+				time.Sleep(2 * time.Second)
+				continue
+			}
 			for i := 0; i < len(testQuestions); i += 2 {
 				clearScreen()
 				CbtQuestions = append(CbtQuestions, testQuestions[i])

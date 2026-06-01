@@ -82,9 +82,6 @@ func DistributeQuestions(subjects []string, total int) map[string]int {
 
 	remainder := total % len(subjects)
 	newrem := 1
-	// if remainder > 1 {
-	// 	newrem = remainder / remainder
-	// }
 	// Shuffle the subjects
 	rand.Shuffle(len(subjects), func(i, j int) {
 		subjects[i], subjects[j] = subjects[j], subjects[i]
@@ -160,19 +157,11 @@ func RandomQuestion(subjects []string, numb int) []string {
 			)
 		}
 	}
+	if testQuestions == nil {
+		return nil
+	}
+	if len(testQuestions) < numb*2 {
+		testQuestions = []string{"Not Enough Questions in the database for the selected subjects."}
+	}
 	return testQuestions
 }
-
-// func main() {
-// 	subjects := []string{
-// 		"Math",
-// 		"Science",
-// 		"English",
-// 	}
-
-// 	questions := RandomQuestion(subjects, 11)
-// 	cleanquestions := strings.Join(questions, "")
-
-// 	fmt.Printf("%#v\n", questions)
-// 	fmt.Println(cleanquestions)
-// }
