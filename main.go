@@ -3,25 +3,10 @@ package main
 import (
 	cbt "CBT/functions"
 	"fmt"
-	"os"
-	"os/exec"
-	"runtime"
 	"strings"
 	"time"
 )
 
-func clearScreen() {
-	switch runtime.GOOS {
-	case "windows":
-		cmd := exec.Command("cmd", "/c", "cls")
-		cmd.Stdout = os.Stdout
-		cmd.Run()
-	default:
-		cmd := exec.Command("clear")
-		cmd.Stdout = os.Stdout
-		cmd.Run()
-	}
-}
 func Subjects(mp map[string][]string) []string {
 	result := []string{}
 	for key, _ := range mp {
@@ -60,7 +45,7 @@ func PrintSubject(subject []string) {
 
 func main() {
 	for {
-		clearScreen()
+		cbt.ClearScreen()
 		fmt.Println("1. Take A Test")
 		fmt.Println("2. Upload Questions")
 		fmt.Println("3. Exit")
@@ -77,7 +62,7 @@ func main() {
 			k := 1
 			selectedSubjects := []string{}
 			for k != 0 {
-				clearScreen()
+				cbt.ClearScreen()
 				PrintSubject(subjects)
 				option := cbt.UserOption("Select An Option: ", len(subjects))
 				if option != len(subjects)+1 {
@@ -94,7 +79,7 @@ func main() {
 					k = 0
 				}
 			}
-			clearScreen()
+			cbt.ClearScreen()
 			score := 0
 			answer := ""
 			CbtQuestions := []string{}
@@ -112,7 +97,7 @@ func main() {
 				continue
 			}
 			for i := 0; i < len(testQuestions); i += 2 {
-				clearScreen()
+				cbt.ClearScreen()
 				CbtQuestions = append(CbtQuestions, testQuestions[i])
 				answer = cbt.PrintQuestion(testQuestions, i)
 				CbtQuestions = append(CbtQuestions, strings.TrimSpace(testQuestions[i+1]))
@@ -123,12 +108,12 @@ func main() {
 				}
 			}
 
-			clearScreen()
+			cbt.ClearScreen()
 			fmt.Printf("Your Score: %v%%\n\n", (score*100)/(len(testQuestions)/2))
 			cbt.PrintCorrectSolution(CbtQuestions)
 			cbt.UserInput("Press anything to continue")
 		} else if option == 2 {
-			clearScreen()
+			cbt.ClearScreen()
 			mp := cbt.LoadQuestion()
 			subjects := Subjects(mp)
 			PrintSubject(subjects)

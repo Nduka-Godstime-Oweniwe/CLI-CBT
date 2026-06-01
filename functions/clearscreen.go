@@ -6,7 +6,7 @@ import (
 	"runtime"
 )
 
-func clearScreen() {
+func ClearScreen() {
 	switch runtime.GOOS {
 	case "windows":
 		cmd := exec.Command("cmd", "/c", "cls")
