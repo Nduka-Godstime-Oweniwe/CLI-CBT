@@ -1,25 +1,9 @@
 package cbt
 
 import (
-	// "bufio"
 	"fmt"
-	// "os"
 	"strings"
 )
-
-// func UserInput(prompt string) string {
-
-// 	reader := bufio.NewReader(os.Stdin)
-
-// 	fmt.Print(prompt)
-
-// 	input, _ := reader.ReadString('\n')
-
-// 	// Remove newline character
-// 	input = strings.TrimSpace(input)
-
-// 	return input
-// }
 
 func UserQuestion() (string, string) {
 	var question string
@@ -79,7 +63,3 @@ func UserQuestion() (string, string) {
 	return fullQuestion, answer
 
 }
-
-// func main() {
-// 	UserQuestion()
-// }
