@@ -13,6 +13,7 @@ func PrintQuestion(questions []Question, numb int) ([]string, int) {
 	for i, q := range questions {
 
 		ClearScreen()
+		fmt.Println("===> " + "Test Mode!" + " <===")
 		fmt.Printf(
 			"%d. %s\n",
 			i+1,
@@ -56,11 +57,15 @@ func PrintQuestion(questions []Question, numb int) ([]string, int) {
 
 func PrintResults(userAnswers []string, score int, selectedSubjects []string, testQuestions []Question, numb int) {
 	ClearScreen()
+	fmt.Println("===> " + "Test Results!" + " <===")
 	percent := (score * 100) / len(testQuestions)
-	testScore := fmt.Sprintf("Your Score: %d%%", percent)
+	testScore := fmt.Sprintf("Score: %d/%d (%d%%)", score, len(testQuestions), percent)
 	scores := LoadScore()
-	scores[time.Now().Format("2006-01-02 15:04:05")] = Score{
-		ID:      len(scores) + 1,
+	if scores == nil {
+		scores = make(map[string]Score)
+	}
+	scores[time.Now().Format("2006-01-02 15:04:05.000")] = Score{
+
 		Subject: strings.Join(selectedSubjects, ", "),
 		Correct: score,
 		Total:   len(testQuestions),

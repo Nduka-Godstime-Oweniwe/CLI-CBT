@@ -29,6 +29,7 @@ func PrintSubject(subject []string) {
 func main() {
 	for {
 		cbt.ClearScreen()
+		fmt.Println("===> " + "Welcome to CLI CBT!" + " <===")
 		fmt.Println("1. Take A Test")
 		fmt.Println("2. Upload Questions")
 		fmt.Println("3. Exit")
@@ -94,6 +95,8 @@ func main() {
 			// Start Test
 
 			cbt.ClearScreen()
+			fmt.Println("===> " + "Starting Test!" + " <===")
+			fmt.Printf("Selected Subjects: %s\n", strings.Join(selectedSubjects, ", "))
 
 			numb := cbt.UserOption("Enter Number Of Questions: ", 50)
 			testQuestions := cbt.RandomQuestion(selectedSubjects, numb)
@@ -110,7 +113,7 @@ func main() {
 			for {
 				if len(testQuestions) < numb {
 					fmt.Printf("Only %d questions are available for the selected subjects. Do you want the test to proceed with the available questions?\n", len(testQuestions))
-					time.Sleep(2 * time.Second)
+					time.Sleep(1 * time.Second)
 					if cbt.UserOption("1. Yes\n2. No\nSelect An Option: ", 2) == 1 {
 						break
 					} else {
@@ -133,6 +136,7 @@ func main() {
 		// Upload Questions
 		if option == 2 {
 			cbt.ClearScreen()
+			fmt.Println("===> " + "Upload Questions!" + " <===")
 
 			mp := cbt.LoadQuestion()
 			subjects := Subjects(mp)
