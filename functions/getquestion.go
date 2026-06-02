@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func UserQuestion() (string, string) {
+func UserQuestion() (string, string, string, string) {
 	var question string
 	var optionA string
 	var optionB string
@@ -54,12 +54,7 @@ func UserQuestion() (string, string) {
 		break
 	}
 
-	// Joint Question, OptionA and OptionB together as one string but separated by a newline character "\n"
-	fullQuestion := question +
-		"\nA. " + optionA +
-		"\nB. " + optionB + "\n"
-
 	//Return both values
-	return fullQuestion, answer
+	return question, optionA, optionB, answer
 
 }

@@ -5,10 +5,12 @@ import (
 	"strings"
 )
 
-func PrintQuestion(questions []string, numb int) string {
-	answer := ""
-	fmt.Println(questions[numb])
+func PrintQuestion(questions []Question, numb int) string {
+	fmt.Printf("%s\n", questions[numb].Question)
+	fmt.Printf("A. %s\n", questions[numb].OptionA)
+	fmt.Printf("B. %s\n\n", questions[numb].OptionB)
 
+	answer := ""
 	for {
 		answer = UserInput("Enter Answer(A or B)")
 		answer = strings.TrimSpace(strings.ToUpper(answer))
@@ -25,7 +27,7 @@ func PrintQuestion(questions []string, numb int) string {
 	return answer
 }
 
-func PrintCorrectSolution(questions []string) {
+func PrintCorrectSolution(questions []Question, userAnswers []string) {
 	// After User is done with the test. All questions asked, their answers, the user's answer would be appended into a slice
 	// E.g {"What is my name\nA. Nduka\nB. Joshua","A","C"}
 	// This means index 0 was the question, index 1 was the correct answers, index 2 was the user answer
@@ -39,15 +41,31 @@ func PrintCorrectSolution(questions []string) {
 	// Correct Answer : A
 	// Your Answer : C
 	for i := 0; i < len(questions); i++ {
-		if i%3 == 0 {
-			fmt.Print(questions[i])
-		}
-		if (i+2)%3 == 0 {
-			fmt.Printf("Correct Ans: %v\n", questions[i])
-		}
 
-		if (i+1)%3 == 0 {
-			fmt.Printf("Your Answer: %v\n", questions[i])
-		}
+		fmt.Printf(
+			"%d. %s\n",
+			i+1,
+			questions[i].Question,
+		)
+
+		fmt.Printf(
+			"A. %s\n",
+			questions[i].OptionA,
+		)
+
+		fmt.Printf(
+			"B. %s\n\n",
+			questions[i].OptionB,
+		)
+
+		fmt.Printf(
+			"Correct Ans: %v\n",
+			questions[i].Answer,
+		)
+
+		fmt.Printf(
+			"Your Answer: %v\n",
+			userAnswers[i],
+		)
 	}
 }

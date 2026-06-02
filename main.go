@@ -7,9 +7,9 @@ import (
 	"time"
 )
 
-func Subjects(mp map[string][]string) []string {
+func Subjects(mp map[string][]cbt.Question) []string {
 	result := []string{}
-	for key, _ := range mp {
+	for key := range mp {
 		result = append(result, key)
 	}
 
@@ -26,20 +26,20 @@ func Subjects(mp map[string][]string) []string {
 // 	return false
 // }
 
-func RemoveIndex(i int, slice []string) []string {
-	result := []string{}
-	for k := 0; k < len(slice); k++ {
-		if k != i {
-			result = append(result, slice[k])
-		}
+// func RemoveIndex(i int, slice []cbt.Question) []string {
+// 	result := []string{}
+// 	for k := 0; k < len(slice); k++ {
+// 		if k != i {
+// 			result = append(result, slice[k])
+// 		}
 
-	}
-	return result
-}
+// 	}
+// 	return result
+// }
 
 func PrintSubject(subject []string) {
 	for i := 0; i < len(subject); i++ {
-		fmt.Printf("%v. %v\n", i+1, subject[i])
+		fmt.Printf("%d. %s\n", i+1, subject[i])
 	}
 }
 
@@ -50,6 +50,8 @@ func main() {
 		fmt.Println("2. Upload Questions")
 		fmt.Println("3. Exit")
 		option := cbt.UserOption("Select an option: ", 3)
+
+		// Take A Test
 		if option == 1 {
 			questionbank := cbt.LoadQuestion()
 			if len(questionbank) == 0 {
@@ -59,32 +61,33 @@ func main() {
 			}
 
 			subjects := Subjects(questionbank)
-			k := 1
+
 			selectedSubjects := []string{}
-			for k != 0 {
+			for {
 				cbt.ClearScreen()
 				PrintSubject(subjects)
 				option := cbt.UserOption("Select An Option: ", len(subjects))
 				if option != len(subjects)+1 {
 					selectedSubjects = append(selectedSubjects, subjects[option-1])
-					subjects = RemoveIndex(option-1, subjects)
+					// subjects = RemoveIndex(option-1, subjects)
 				}
 				if len(subjects) == 0 {
-					k = 0
 					continue
 				}
 				exit := cbt.UserOption("1. Select Another Subject\n2. Proceed to Test\nSelect An Option: ", 2)
 				time.Sleep(1 * time.Second)
 				if exit == 2 {
-					k = 0
+					break
 				}
 			}
+
+			// Start Test
+
 			cbt.ClearScreen()
-			score := 0
-			answer := ""
-			CbtQuestions := []string{}
-			numb := 0
-			numb = cbt.UserOption("Enter Number Of Questions: ", 50)
+
+			CbtQuestions := []cbt.Question{}
+			// numb := 0
+			numb := cbt.UserOption("Enter Number Of Questions: ", 50)
 			testQuestions := cbt.RandomQuestion(selectedSubjects, numb)
 			if testQuestions == nil {
 				fmt.Println("Oops! There are no available questions for the selected subjects pls try again some other time")
@@ -96,24 +99,51 @@ func main() {
 				time.Sleep(2 * time.Second)
 				continue
 			}
-			for i := 0; i < len(testQuestions); i += 2 {
+
+			score := 0
+			userAnswers := []string{}
+			for i, q := range testQuestions {
+
 				cbt.ClearScreen()
-				CbtQuestions = append(CbtQuestions, testQuestions[i])
-				answer = cbt.PrintQuestion(testQuestions, i)
-				CbtQuestions = append(CbtQuestions, strings.TrimSpace(testQuestions[i+1]))
-				CbtQuestions = append(CbtQuestions, answer)
-				time.Sleep(1 * time.Second)
-				if answer == strings.TrimSpace(testQuestions[i+1]) {
+				fmt.Printf(
+					"%d. %s\n",
+					i+1,
+					q.Question,
+				)
+
+				fmt.Printf(
+					"A. %s\n",
+					q.OptionA,
+				)
+
+				fmt.Printf(
+					"B. %s\n\n",
+					q.OptionB,
+				)
+
+				answer := strings.ToUpper(
+					strings.TrimSpace(
+						cbt.UserInput("Answer (A/B): "),
+					),
+				)
+				userAnswers = append(userAnswers, answer)
+				if answer == q.Answer {
 					score++
 				}
 			}
 
+			// Results
 			cbt.ClearScreen()
+
 			fmt.Printf("Your Score: %v%%\n\n", (score*100)/(len(testQuestions)/2))
-			cbt.PrintCorrectSolution(CbtQuestions)
+			cbt.PrintCorrectSolution(CbtQuestions, userAnswers)
 			cbt.UserInput("Press anything to continue")
-		} else if option == 2 {
+		}
+
+		// Upload Questions
+		if option == 2 {
 			cbt.ClearScreen()
+
 			mp := cbt.LoadQuestion()
 			subjects := Subjects(mp)
 			PrintSubject(subjects)
@@ -135,7 +165,9 @@ func main() {
 			cbt.UserInput("Press Any key to continue")
 			continue
 
-		} else {
+		}
+		// Exit
+		if option == 3 {
 			break
 		}
 	}
