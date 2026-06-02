@@ -1,6 +1,7 @@
 package cbt
 
 import (
+	"fmt"
 	"math/rand"
 )
 
@@ -38,13 +39,44 @@ func RandomQuestion(subjects []string, numb int) []Question {
 		return nil
 	}
 	subjectMap := DistributeQuestions(subjects, numb)
+	fmt.Println("Distribution:")
+	for subject, nb := range subjectMap {
+		fmt.Println(subject, nb)
+	}
 	// This takes a slice of all the names of subjects that the user wants to answer, and also the number of questions that would be asked in the test.
 	testQuestions := []Question{}
 
 	// It calls LoadQuestion() to get the entire questions in the data base.
 	allQuestions := LoadQuestion()
-
+	shortage := 0
 	// Collect questions from selected subjects
+	for subject, requested := range subjectMap {
+		available := len(allQuestions[subject])
+		if requested > available {
+			shortage += requested - available
+			subjectMap[subject] = available
+		}
+	}
+
+	for shortage > 0 {
+		moved := false
+		for subject, assigned := range subjectMap {
+			available := len(allQuestions[subject])
+			if assigned < available {
+				subjectMap[subject]++
+				shortage--
+				moved = true
+				if shortage == 0 {
+					break
+				}
+			}
+		}
+
+		if !moved {
+			break
+		}
+	}
+
 	// Returns the slice of these questions and answers.
 	for subject, nb := range subjectMap {
 		questions, exists := allQuestions[subject]
@@ -65,6 +97,22 @@ func RandomQuestion(subjects []string, numb int) []Question {
 					availableQuestions[i]
 			},
 		)
+		for i := range availableQuestions {
+
+			if rand.Intn(2) == 1 {
+
+				availableQuestions[i].OptionA,
+					availableQuestions[i].OptionB =
+					availableQuestions[i].OptionB,
+					availableQuestions[i].OptionA
+
+				if availableQuestions[i].Answer == "A" {
+					availableQuestions[i].Answer = "B"
+				} else {
+					availableQuestions[i].Answer = "A"
+				}
+			}
+		}
 		if nb > len(availableQuestions) {
 			nb = len(availableQuestions)
 		}
@@ -73,5 +121,6 @@ func RandomQuestion(subjects []string, numb int) []Question {
 			availableQuestions[:nb]...,
 		)
 	}
+
 	return testQuestions
 }

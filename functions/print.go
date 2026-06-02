@@ -76,6 +76,7 @@ func PrintResults(userAnswers []string, score int, selectedSubjects []string, te
 
 	if percent >= 70 {
 		fmt.Println("Congratulations! You passed the test.")
+
 	} else {
 		fmt.Println("Unfortunately, you did not pass the test. Better luck next time!")
 	}
@@ -89,6 +90,7 @@ func PrintResults(userAnswers []string, score int, selectedSubjects []string, te
 			PrintResults(userAnswers, score, selectedSubjects, testQuestions, numb)
 		}
 	}
+
 }
 
 func PrintCorrectSolution(questions []Question, userAnswers []string) {

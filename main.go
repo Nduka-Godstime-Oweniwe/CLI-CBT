@@ -13,17 +13,14 @@ func Subjects(mp map[string][]cbt.Question) []string {
 	for key := range mp {
 		result = append(result, key)
 	}
-
-	result = append(result, "Selected Subjects")
-	result = append(result, "All Subjects")
-
 	return result
 }
 
-func PrintSubject(subject []string) {
+func PrintSubject(subject []string) []string {
 	for i := 0; i < len(subject); i++ {
 		fmt.Printf("%d. %s\n", i+1, subject[i])
 	}
+	return subject
 }
 
 func main() {
@@ -47,19 +44,31 @@ func main() {
 			subjects := Subjects(questionbank)
 
 			selectedSubjects := []string{}
+			option := 0
 			for {
 				cbt.ClearScreen()
+				fmt.Println("===> " + "Select Subjects!" + " <===")
 				PrintSubject(subjects)
-				option := cbt.UserOption("Select An Option: ", len(subjects))
+				fmt.Printf("%v. Select Multiple Subjects\n", len(subjects)+1)
+				fmt.Printf("%v. Select All Subjects\n", len(subjects)+2)
+				fmt.Printf("%v. Go back\n", len(subjects)+3)
+				option = cbt.UserOption("Select An Option: ", len(subjects)+3)
 				if len(subjects) == 0 {
 					continue
 				}
-				if option <= len(subjects)-2 {
+				if option <= len(subjects) && option > 0 {
 					selectedSubjects = append(selectedSubjects, subjects[option-1])
-					// subjects = RemoveIndex(option-1, subjects)
-					break
+					exit := cbt.UserOption("1. Proceed to Test\n2. Select Different Subject\nSelect An Option: ", 2)
+					time.Sleep(1 * time.Second)
+					if exit == 1 {
+						break
+					} else {
+						selectedSubjects = nil
+						continue
+					}
+
 				}
-				if option == len(subjects)-1 {
+				if option == len(subjects)+1 {
 					for {
 						nameOfSubject := strings.TrimSpace(
 							cbt.UserInput("Enter Subject Name or done to finish: "),
@@ -79,17 +88,17 @@ func main() {
 					}
 					break
 				}
-				if option == len(subjects) {
-					selectedSubjects = subjects[:len(subjects)-2]
+				if option == len(subjects)+2 {
+					selectedSubjects = subjects
 					break
 				}
-				exit := cbt.UserOption("1. Proceed to Test\n2. Select Another Subject\nSelect An Option: ", 2)
-				time.Sleep(1 * time.Second)
-				if exit == 1 {
+				if option == len(subjects)+3 {
 					break
-				} else {
-					continue
 				}
+
+			}
+			if option == len(subjects)+3 {
+				continue
 			}
 
 			// Start Test
@@ -100,6 +109,7 @@ func main() {
 
 			numb := cbt.UserOption("Enter Number Of Questions: ", 50)
 			testQuestions := cbt.RandomQuestion(selectedSubjects, numb)
+
 			if testQuestions == nil {
 				fmt.Println("Oops! There are no available questions for the selected subjects pls try again some other time")
 				time.Sleep(2 * time.Second)
@@ -118,9 +128,11 @@ func main() {
 						break
 					} else {
 						numb = cbt.UserOption("Enter Number Of Questions: ", 50)
-						testQuestions = cbt.RandomQuestion(selectedSubjects, numb)
 					}
 				}
+
+				testQuestions = cbt.RandomQuestion(selectedSubjects, numb)
+				break
 			}
 
 			score := 0
@@ -129,8 +141,9 @@ func main() {
 			cbt.PrintResults(userAnswers, score, selectedSubjects, testQuestions, numb)
 
 			// Results
-
+			// continue
 			cbt.UserInput("Press anything to continue")
+			continue
 		}
 
 		// Upload Questions

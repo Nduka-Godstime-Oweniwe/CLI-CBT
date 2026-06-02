@@ -1,1 +1,72 @@
-{"English":[{"ID":0,"Subject":"","Question":"What is a Noun?","OptionA":"A naming word","OptionB":"An action word","Answer":"A"},{"ID":0,"Subject":"","Question":"A verb is...?","OptionA":"A sentence","OptionB":"An action word","Answer":"B"}],"Mathematics":[{"ID":0,"Subject":"","Question":"2+2","OptionA":"1","OptionB":"4","Answer":"B"},{"ID":0,"Subject":"","Question":"5x3+5","OptionA":"15","OptionB":"20","Answer":"B"}]}
+{
+  "English": [
+    {
+      "ID": 0,
+      "Subject": "",
+      "Question": "What is a Noun?",
+      "OptionA": "A naming word",
+      "OptionB": "An action word",
+      "Answer": "A"
+    },
+    {
+      "ID": 0,
+      "Subject": "",
+      "Question": "A verb is...?",
+      "OptionA": "A sentence",
+      "OptionB": "An action word",
+      "Answer": "B"
+    },
+    {
+      "ID": 0,
+      "Subject": "",
+      "Question": "The past tense of take is ..?",
+      "OptionA": "took",
+      "OptionB": "taked",
+      "Answer": "A"
+    },
+    {
+      "ID": 0,
+      "Subject": "",
+      "Question": "The word \"and\" is?",
+      "OptionA": "A conjunction",
+      "OptionB": "A naming word",
+      "Answer": "A"
+    }
+  ],
+  "Mathematics": [
+    {
+      "ID": 0,
+      "Subject": "",
+      "Question": "2+2",
+      "OptionA": "1",
+      "OptionB": "4",
+      "Answer": "B"
+    },
+    {
+      "ID": 0,
+      "Subject": "",
+      "Question": "5x3+5",
+      "OptionA": "15",
+      "OptionB": "20",
+      "Answer": "B"
+    }
+  ],
+"Physics": [
+    {
+      "ID": 0,
+      "Subject": "",
+      "Question": "kg = ?",
+      "OptionA": "mass",
+      "OptionB": "force",
+      "Answer": "A"
+    },
+    {
+      "ID": 0,
+      "Subject": "",
+      "Question": "Newton = ?",
+      "OptionA": "mass",
+      "OptionB": "force",
+      "Answer": "B"
+    }
+  ]
+}
