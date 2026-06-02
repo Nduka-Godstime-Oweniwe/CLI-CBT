@@ -1,7 +1,6 @@
 package cbt
 
 import (
-	"fmt"
 	"math/rand"
 )
 
@@ -39,10 +38,7 @@ func RandomQuestion(subjects []string, numb int) []Question {
 		return nil
 	}
 	subjectMap := DistributeQuestions(subjects, numb)
-	fmt.Println("Distribution:")
-	for subject, nb := range subjectMap {
-		fmt.Println(subject, nb)
-	}
+
 	// This takes a slice of all the names of subjects that the user wants to answer, and also the number of questions that would be asked in the test.
 	testQuestions := []Question{}
 
