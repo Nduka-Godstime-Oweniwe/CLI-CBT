@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 	"time"
+	"unicode"
 )
 
 func Subjects(mp map[string][]cbt.Question) []string {
@@ -13,29 +14,11 @@ func Subjects(mp map[string][]cbt.Question) []string {
 		result = append(result, key)
 	}
 
+	result = append(result, "Selected Subjects")
+	result = append(result, "All Subjects")
+
 	return result
 }
-
-// func IsContained(str string, slice []string) bool {
-// 	for i := 0; i < len(slice); i++ {
-// 		if slice[i] == str {
-// 			return true
-// 		}
-
-// 	}
-// 	return false
-// }
-
-// func RemoveIndex(i int, slice []cbt.Question) []string {
-// 	result := []string{}
-// 	for k := 0; k < len(slice); k++ {
-// 		if k != i {
-// 			result = append(result, slice[k])
-// 		}
-
-// 	}
-// 	return result
-// }
 
 func PrintSubject(subject []string) {
 	for i := 0; i < len(subject); i++ {
@@ -67,17 +50,44 @@ func main() {
 				cbt.ClearScreen()
 				PrintSubject(subjects)
 				option := cbt.UserOption("Select An Option: ", len(subjects))
-				if option != len(subjects)+1 {
-					selectedSubjects = append(selectedSubjects, subjects[option-1])
-					// subjects = RemoveIndex(option-1, subjects)
-				}
 				if len(subjects) == 0 {
 					continue
 				}
-				exit := cbt.UserOption("1. Select Another Subject\n2. Proceed to Test\nSelect An Option: ", 2)
-				time.Sleep(1 * time.Second)
-				if exit == 2 {
+				if option <= len(subjects)-2 {
+					selectedSubjects = append(selectedSubjects, subjects[option-1])
+					// subjects = RemoveIndex(option-1, subjects)
 					break
+				}
+				if option == len(subjects)-1 {
+					for {
+						nameOfSubject := strings.TrimSpace(
+							cbt.UserInput("Enter Subject Name or done to finish: "),
+						)
+						runesOfSubject := []rune(nameOfSubject)
+						runesOfSubject[0] = unicode.ToUpper(runesOfSubject[0])
+						nameOfSubject = string(runesOfSubject)
+						if strings.ToLower(nameOfSubject) == "done" {
+							break
+						}
+						if _, exists := questionbank[nameOfSubject]; !exists {
+							fmt.Println("Subject does not exist!")
+							time.Sleep(1 * time.Second)
+							continue
+						}
+						selectedSubjects = append(selectedSubjects, nameOfSubject)
+					}
+					break
+				}
+				if option == len(subjects) {
+					selectedSubjects = subjects[:len(subjects)-2]
+					break
+				}
+				exit := cbt.UserOption("1. Proceed to Test\n2. Select Another Subject\nSelect An Option: ", 2)
+				time.Sleep(1 * time.Second)
+				if exit == 1 {
+					break
+				} else {
+					continue
 				}
 			}
 
@@ -85,8 +95,6 @@ func main() {
 
 			cbt.ClearScreen()
 
-			CbtQuestions := []cbt.Question{}
-			// numb := 0
 			numb := cbt.UserOption("Enter Number Of Questions: ", 50)
 			testQuestions := cbt.RandomQuestion(selectedSubjects, numb)
 			if testQuestions == nil {
@@ -99,44 +107,26 @@ func main() {
 				time.Sleep(2 * time.Second)
 				continue
 			}
-
-			score := 0
-			userAnswers := []string{}
-			for i, q := range testQuestions {
-
-				cbt.ClearScreen()
-				fmt.Printf(
-					"%d. %s\n",
-					i+1,
-					q.Question,
-				)
-
-				fmt.Printf(
-					"A. %s\n",
-					q.OptionA,
-				)
-
-				fmt.Printf(
-					"B. %s\n\n",
-					q.OptionB,
-				)
-
-				answer := strings.ToUpper(
-					strings.TrimSpace(
-						cbt.UserInput("Answer (A/B): "),
-					),
-				)
-				userAnswers = append(userAnswers, answer)
-				if answer == q.Answer {
-					score++
+			for {
+				if len(testQuestions) < numb {
+					fmt.Printf("Only %d questions are available for the selected subjects. Do you want the test to proceed with the available questions?\n", len(testQuestions))
+					time.Sleep(2 * time.Second)
+					if cbt.UserOption("1. Yes\n2. No\nSelect An Option: ", 2) == 1 {
+						break
+					} else {
+						numb = cbt.UserOption("Enter Number Of Questions: ", 50)
+						testQuestions = cbt.RandomQuestion(selectedSubjects, numb)
+					}
 				}
 			}
 
-			// Results
-			cbt.ClearScreen()
+			score := 0
+			userAnswers := []string{}
+			userAnswers, score = cbt.PrintQuestion(testQuestions, numb)
+			cbt.PrintResults(userAnswers, score, selectedSubjects, testQuestions, numb)
 
-			fmt.Printf("Your Score: %v%%\n\n", (score*100)/(len(testQuestions)/2))
-			cbt.PrintCorrectSolution(CbtQuestions, userAnswers)
+			// Results
+
 			cbt.UserInput("Press anything to continue")
 		}
 

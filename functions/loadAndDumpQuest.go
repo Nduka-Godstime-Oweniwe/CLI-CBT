@@ -8,7 +8,9 @@ import (
 type Score struct {
 	ID      int
 	Subject string
-	Score   string
+	Correct int
+	Total   int
+	Score   int
 }
 
 type Question struct {
@@ -72,7 +74,11 @@ func DumpQuestion(questions map[string][]Question) {
 	// This function takes in the questions as parameters and overwrites what was inside questions.json with the new questions
 	// If the file doesnt exist , the function creates it and dumps it inside
 	result := map[string][]Question{}
-	data, err := json.Marshal(questions)
+	data, err := json.MarshalIndent(
+		questions,
+		"",
+		"  ",
+	)
 	if err == nil {
 		os.WriteFile("questions.json", data, 0644)
 	} else {
@@ -86,7 +92,11 @@ func DumpScore(scores map[string]Score) {
 	// This function takes in the scores as parameters and overwrites what was inside scores.json with the new scores
 	// If the file doesnt exist , the function creates it and dumps it inside
 	result := map[string]Score{}
-	data, err := json.Marshal(scores)
+	data, err := json.MarshalIndent(
+		scores,
+		"",
+		"  ",
+	)
 	if err == nil {
 		os.WriteFile("scores.json", data, 0644)
 	} else {

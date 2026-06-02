@@ -3,28 +3,87 @@ package cbt
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
-func PrintQuestion(questions []Question, numb int) string {
-	fmt.Printf("%s\n", questions[numb].Question)
-	fmt.Printf("A. %s\n", questions[numb].OptionA)
-	fmt.Printf("B. %s\n\n", questions[numb].OptionB)
+func PrintQuestion(questions []Question, numb int) ([]string, int) {
+	var userAnswers []string
+	var answer string
+	var score int
+	for i, q := range questions {
 
-	answer := ""
-	for {
-		answer = UserInput("Enter Answer(A or B)")
-		answer = strings.TrimSpace(strings.ToUpper(answer))
-		if answer != "A" && answer != "B" {
-			fmt.Println("Invalid Answer!")
-		} else {
+		ClearScreen()
+		fmt.Printf(
+			"%d. %s\n",
+			i+1,
+			q.Question,
+		)
+
+		fmt.Printf(
+			"A. %s\n",
+			q.OptionA,
+		)
+
+		fmt.Printf(
+			"B. %s\n\n",
+			q.OptionB,
+		)
+
+		for {
+			answer = strings.ToUpper(
+				strings.TrimSpace(
+					UserInput("Answer (A/B): "),
+				),
+			)
+			if answer != "A" && answer != "B" {
+				fmt.Println("Invalid Answer!")
+				continue
+			}
 			break
 		}
+
+		userAnswers = append(userAnswers, answer)
+		if answer == q.Answer {
+			score++
+		}
+		// This prints the question when user is taking a
+		// It takes a slice of strings and the index of the particular question to be printed
+		// return user
+
+	}
+	return userAnswers, score
+}
+
+func PrintResults(userAnswers []string, score int, selectedSubjects []string, testQuestions []Question, numb int) {
+	ClearScreen()
+	percent := (score * 100) / len(testQuestions)
+	testScore := fmt.Sprintf("Your Score: %d%%", percent)
+	scores := LoadScore()
+	scores[time.Now().Format("2006-01-02 15:04:05")] = Score{
+		ID:      len(scores) + 1,
+		Subject: strings.Join(selectedSubjects, ", "),
+		Correct: score,
+		Total:   len(testQuestions),
+		Score:   percent,
+	}
+	DumpScore(scores)
+	fmt.Print(testScore + "\n")
+
+	if percent >= 70 {
+		fmt.Println("Congratulations! You passed the test.")
+	} else {
+		fmt.Println("Unfortunately, you did not pass the test. Better luck next time!")
 	}
 
-	// This prints the question when user is taking a cbt.
-	// It takes a slice of strings and the index of the particular question to be printed
-	// return user
-	return answer
+	if percent != 100 {
+		PrintCorrectSolution(testQuestions, userAnswers)
+		fmt.Println("\nReview the correct answers above and try again to improve your score!")
+		fmt.Println("Would you like to retake this test?")
+		if UserOption("1. Yes\n2. No\nSelect An Option: ", 2) == 1 {
+			userAnswers, score = PrintQuestion(testQuestions, numb)
+			PrintResults(userAnswers, score, selectedSubjects, testQuestions, numb)
+		}
+	}
 }
 
 func PrintCorrectSolution(questions []Question, userAnswers []string) {
